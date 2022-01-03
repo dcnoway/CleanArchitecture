@@ -4,9 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Clean.Architecture.Wpf"
+        xmlns:vm ="clr-namespace:Clean.Architecture.Wpf.ViewModels"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+    <Window.Resources>
+        <vm:Projects x:Key="ProjectsModel"/>
+    </Window.Resources>
+    <DockPanel LastChildFill="True" Margin="10">
+        <ToolBar DockPanel.Dock="Top" Height="30">
+            <Button Background="#FF556F53" BorderBrush="#FF0E9E2B" Height="20" Width="20" Click="Button_Click"/>
+        </ToolBar>
+        <StatusBar x:Name="AppStatusBar" DockPanel.Dock="Bottom" Height="30">
+            <Label Content="Ready"/>
+        </StatusBar>
+        <ListBox x:Name="ProjectsList" IsSynchronizedWithCurrentItem="True" Width="225" DockPanel.Dock="Left" ItemsSource="{Binding  Mode=OneWay, Source={StaticResource ProjectsModel}}" />
+        <ListBox x:Name="ToDoItemsList" ItemsSource="{Binding Source={StaticResource ProjectsModel}, Path=/Items}"/>
+    </DockPanel>
 </Window>

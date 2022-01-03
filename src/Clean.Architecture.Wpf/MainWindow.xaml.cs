@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Collections.Specialized;
 
 namespace Clean.Architecture.Wpf
 {
@@ -24,5 +25,12 @@ namespace Clean.Architecture.Wpf
         {
             InitializeComponent();
         }
+
+    private void Button_Click(object sender, RoutedEventArgs e)
+    {
+      var mod = (ViewModels.Projects)Resources["ProjectsModel"];
+      mod.Add(new ViewModels.ProjectDTO() { Name = "AddProj" });
+      ((Label)AppStatusBar.Items[0]).Content = ProjectsList.ItemsSource.ToString();
     }
+  }
 }

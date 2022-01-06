@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
-using Clean.Architecture.SharedKernel.Interfaces;
+﻿using Clean.Architecture.Core.ProjectAggregate;
 using Clean.Architecture.Infrastructure.Data;
-using Clean.Architecture.Core.ProjectAggregate;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+
+
 namespace Clean.Architecture.Wpf.ViewModels;
 
 internal class MainWindowViewModel : INotifyPropertyChanged
@@ -19,7 +15,7 @@ internal class MainWindowViewModel : INotifyPropertyChanged
   {
     using (var db = App.CreateDbContext())
     {
-      if(db.Database.EnsureCreated())
+      if (db.Database.EnsureCreated())
         SeedData.Initialize(db);
 
       InitCollectionsWithDb(db);
@@ -30,21 +26,21 @@ internal class MainWindowViewModel : INotifyPropertyChanged
 
   private async void InitCollectionsWithDb(AppDbContext db)
   {
-      db.Database.EnsureCreated();
-      var repository = new EfRepository<Project>(db);
-      var prjs = await repository.ListAsync(new ProjectsWithItemsSpec());
-      //var prjs = await repository.GetBySpecAsync(new ProjectsWithItemsSpec());
-      foreach (Project p in prjs)
-      {
-        ProjectProxy pp = new ProjectProxy(p);
-        Projects.Add(pp);
+    db.Database.EnsureCreated();
+    var repository = new EfRepository<Project>(db);
+    var prjs = await repository.ListAsync(new ProjectsWithItemsSpec());
+    //var prjs = await repository.GetBySpecAsync(new ProjectsWithItemsSpec());
+    foreach (Project p in prjs)
+    {
+      ProjectProxy pp = new ProjectProxy(p);
+      Projects.Add(pp);
       //TODO: ADD READ TODOITEM FROM DB
-      }
+    }
   }
 
   #region changed event
   public event PropertyChangedEventHandler? PropertyChanged;
-  private void OnPropertyChanged(string prop)
+  public void OnPropertyChanged(string prop)
   {
     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
   }

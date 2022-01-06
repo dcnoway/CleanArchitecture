@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using Clean.Architecture.Core.ProjectAggregate;
 using System.Collections.ObjectModel;
-using Clean.Architecture.Core.ProjectAggregate;
+using System.ComponentModel;
 namespace Clean.Architecture.Wpf.ViewModels;
 
 public class ProjectProxy : INotifyPropertyChanged
@@ -13,7 +12,7 @@ public class ProjectProxy : INotifyPropertyChanged
   public ProjectProxy(Project proj)
   {
     _project = proj;
-    foreach(ToDoItem item in proj.Items)
+    foreach (ToDoItem item in proj.Items)
     {
       ToDoItemProxy itemProxy = new ToDoItemProxy(item);
       _items.Add(itemProxy);
@@ -39,16 +38,16 @@ public class ProjectProxy : INotifyPropertyChanged
     }
   }
 
-  public string Name 
-  { 
-    get =>_project.Name;
+  public string Name
+  {
+    get => _project.Name;
   }
 
   public ProjectStatus Status
   {
     get => _project.Status;
   }
-  
+
   public void AddItem(ToDoItemProxy newItem)
   {
     _project.AddItem(newItem.GetToDoItem());

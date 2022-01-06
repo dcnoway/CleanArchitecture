@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Ardalis.Specification;
 using Clean.Architecture.Core.ProjectAggregate;
-using Ardalis.Specification;
+//using System;
+//using System.Linq;
 
 namespace Clean.Architecture.Wpf.ViewModels;
 

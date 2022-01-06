@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.Specialized;
+using System.Configuration;
+using Clean.Architecture.Infrastructure.Data;
 
 namespace Clean.Architecture.Wpf
 {
@@ -28,8 +30,8 @@ namespace Clean.Architecture.Wpf
 
     private void Button_Click(object sender, RoutedEventArgs e)
     {
-      var mod = (ViewModels.Projects)Resources["ProjectsModel"];
-      mod.Add(new ViewModels.ProjectDTO() { Name = "AddProj" });
+      var mod = (ViewModels.MainWindowViewModel)Resources["mainWinVM"];
+      mod.Projects.Add(new ViewModels.ProjectProxy(new Core.ProjectAggregate.Project("AddProj")));
       ((Label)AppStatusBar.Items[0]).Content = ProjectsList.ItemsSource.ToString();
     }
   }

@@ -3,6 +3,7 @@ using Clean.Architecture.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 using Clean.Architecture.Wpf.ViewModels;
+
 namespace Clean.Architecture.Wpf;
 
 public static class SeedData
@@ -24,16 +25,17 @@ public static class SeedData
     Description = "Make sure all the tests run and review what they are doing."
   };
 
-  //public static void Initialize(ref MainWindowViewModel model)
-  //{
-  //  if (null == model) return;
-  //  //TestProject1.AddItem(ToDoItem1);
-  //  //TestProject1.AddItem(ToDoItem2);
-  //  //TestProject1.AddItem(ToDoItem3);
-  //  //proj.Add(TestProject1);
+  public static void Initialize(AppDbContext dbContext)
+  {
+    // Look for any TODO items.
+    //dbContext.ToDoItems.AnyAsync().GetAwaiter().GetResult();
+    if (dbContext.ToDoItems.AnyAsync().GetAwaiter().GetResult())
+    {
+      return;   // DB has been seeded
+    }
 
-  //  //model.Projects?.Add(prj);
-  //}
+    PopulateTestData(dbContext);
+  }
 
 
   public static void PopulateTestData(AppDbContext dbContext)

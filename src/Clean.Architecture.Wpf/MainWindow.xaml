@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Window.Resources>
-        <vm:Projects x:Key="ProjectsModel"/>
+        <vm:MainWindowViewModel x:Key="mainWinVM"/>
     </Window.Resources>
     <DockPanel LastChildFill="True" Margin="10">
         <ToolBar DockPanel.Dock="Top" Height="30">
@@ -17,7 +17,7 @@
         <StatusBar x:Name="AppStatusBar" DockPanel.Dock="Bottom" Height="30">
             <Label Content="Ready"/>
         </StatusBar>
-        <ListBox x:Name="ProjectsList" IsSynchronizedWithCurrentItem="True" Width="225" DockPanel.Dock="Left" ItemsSource="{Binding  Mode=OneWay, Source={StaticResource ProjectsModel}}" />
-        <ListBox x:Name="ToDoItemsList" ItemsSource="{Binding Source={StaticResource ProjectsModel}, Path=/Items}"/>
+        <ListBox x:Name="ProjectsList" IsSynchronizedWithCurrentItem="True" Width="225" DockPanel.Dock="Left" ItemsSource="{Binding  Mode=OneWay, Source={StaticResource mainWinVM}, Path=Projects}" d:ItemsSource="{d:SampleData ItemCount=5}" />
+        <ListBox x:Name="ToDoItemsList" ItemsSource="{Binding Source={StaticResource mainWinVM}, Path=Projects/Items}"/>
     </DockPanel>
 </Window>

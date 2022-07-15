@@ -6,9 +6,9 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Clean.Architecture.Web.Endpoints.ProjectEndpoints;
 
-public class Update : BaseAsyncEndpoint
+public class Update : EndpointBaseAsync
     .WithRequest<UpdateProjectRequest>
-    .WithResponse<UpdateProjectResponse>
+    .WithActionResult<UpdateProjectResponse>
 {
   private readonly IRepository<Project> _repository;
 
@@ -24,26 +24,29 @@ public class Update : BaseAsyncEndpoint
       OperationId = "Projects.Update",
       Tags = new[] { "ProjectEndpoints" })
   ]
-  public override async Task<ActionResult<UpdateProjectResponse>> HandleAsync(UpdateProjectRequest request,
-      CancellationToken cancellationToken)
+  public override async Task<ActionResult<UpdateProjectResponse>> HandleAsync(
+    UpdateProjectRequest request,
+      CancellationToken cancellationToken = new ())
   {
     if (request.Name == null)
     {
       return BadRequest();
     }
-    var existingProject = await _repository.GetByIdAsync(request.Id); // TODO: pass cancellation token
 
+    var existingProject = await _repository.GetByIdAsync(request.Id, cancellationToken);
     if (existingProject == null)
     {
       return NotFound();
     }
+
     existingProject.UpdateName(request.Name);
 
-    await _repository.UpdateAsync(existingProject); // TODO: pass cancellation token
+    await _repository.UpdateAsync(existingProject, cancellationToken);
 
     var response = new UpdateProjectResponse(
         project: new ProjectRecord(existingProject.Id, existingProject.Name)
     );
+
     return Ok(response);
   }
 }
